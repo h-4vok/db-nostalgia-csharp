@@ -13,7 +13,7 @@ namespace DBNostalgia
     /// </summary>
     public class ParametersBuilder
     {
-        private IList<ProcedureParameter> parameters;
+        private readonly IList<ProcedureParameter> parameters;
 
         /// <summary>
         /// Constructs a new ParametersBuilder object.

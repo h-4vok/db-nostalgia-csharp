@@ -13,6 +13,7 @@ namespace DBNostalgia.Test
     public class Test_ProcedureParameterWithT
     {
         [TestMethod]
+        [TestCategory(Category.Unit)]
         public void ProcedureParameterWithT_Constructor_SetsValueAndName()
         {
             var expectedName = "aName";
@@ -25,6 +26,7 @@ namespace DBNostalgia.Test
         }
 
         [TestMethod]
+        [TestCategory(Category.Unit)]
         public void ProcedureParameterWithT_GetValue()
         {
             var expectedValue = 1003;
@@ -35,6 +37,7 @@ namespace DBNostalgia.Test
         }
 
         [TestMethod]
+        [TestCategory(Category.Unit), TestCategory(Category.Slow)]
         public void ProcedureParameterWithT_SetupDbCommand_SetsCommandAsExpected()
         {
             var parameterName = "parameter_name";

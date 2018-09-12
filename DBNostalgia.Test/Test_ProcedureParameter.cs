@@ -8,6 +8,7 @@ namespace DBNostalgia.Test
     public class Test_ProcedureParameter
     {
         [TestMethod]
+        [TestCategory(Category.Unit), TestCategory(Category.Slow)]
         public void ProcedureParameter_Ctor_SetsName()
         {
             var expectedParamName = "ParameterName1";
