@@ -23,8 +23,6 @@ DBNostalgia intends to bring a different approach. It is not an ORM, it is not a
 ## Pending ideas/development
 
 * It forces transactions on everything. I want to change this so the developer has the power to decide that. Eventually the usage will be myUnitOfWork.Transaction or you just create a TransactionUnitOfWork.
-* XML comments on IUnitOfWork
-* XML comments on the other public classes
 * Unit testing
 * Allow template method injection for you to control what happens on every action called.
 * Provide more data types on IDataReaderExtensions
@@ -42,9 +40,8 @@ DBNostalgia intends to bring a different approach. It is not an ORM, it is not a
 
 ## Changelog 2018-09-11
 
-### Changes
-
 ### Internal changes
 * Moved project to GIT
 * Made necessary refactoring to reduce code
 * Migrated IDataReaderExtensions and ParametersBuilder to this project.
+* Added XML comments to all public interfaces.
