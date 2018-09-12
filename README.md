@@ -29,9 +29,22 @@ DBNostalgia intends to bring a different approach. It is not an ORM, it is not a
 * Allow template method injection for you to control what happens on every action called.
 * Provide more data types on IDataReaderExtensions
 * Extensibility through interfaces and composition for greater customization
+* Add a GetBytesNullable to IDataReaderExtensions
+* Consider moving IDataReader extensions and ParametersBuilder to their own nuget packages and repos
+* Add GetOne and GetOneDirect methods to IUnitOfWork
+* Should the Direct vs "NonDirect" (bad names) behaviors instead become different implementations/classes under the same interface? Making sure the user (developer) receives an easy-to-use library that is clear on what is its intent. This change might prove a bit difficult because of the interface we want to provide.
 
 ## Pending readme sections
 
 * Advantages
 * Disadvantages
 * Examples
+
+## Changelog 2018-09-11
+
+### Changes
+
+### Internal changes
+* Moved project to GIT
+* Made necessary refactoring to reduce code
+* Migrated IDataReaderExtensions and ParametersBuilder to this project.
