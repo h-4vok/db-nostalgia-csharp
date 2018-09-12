@@ -23,9 +23,6 @@ DBNostalgia intends to bring a different approach. It is not an ORM, it is not a
 ## Pending ideas/development
 
 * It forces transactions on everything. I want to change this so the developer has the power to decide that. Eventually the usage will be myUnitOfWork.Transaction or you just create a TransactionUnitOfWork.
-* XML comments on IUnitOfWork
-* XML comments on the other public classes
-* Unit testing
 * Allow template method injection for you to control what happens on every action called.
 * Provide more data types on IDataReaderExtensions
 * Extensibility through interfaces and composition for greater customization
@@ -33,6 +30,8 @@ DBNostalgia intends to bring a different approach. It is not an ORM, it is not a
 * Consider moving IDataReader extensions and ParametersBuilder to their own nuget packages and repos
 * Add GetOne and GetOneDirect methods to IUnitOfWork
 * Should the Direct vs "NonDirect" (bad names) behaviors instead become different implementations/classes under the same interface? Making sure the user (developer) receives an easy-to-use library that is clear on what is its intent. This change might prove a bit difficult because of the interface we want to provide.
+* Should I be targetting 4.6.1? Figure out if there is a way to easily find what is the lesser version my code can support without changing any code.
+* Additional Unit testing (classes EnumerableExtensions, IDataReaderExtensions, UnitOfWork)
 
 ## Pending readme sections
 
@@ -42,9 +41,8 @@ DBNostalgia intends to bring a different approach. It is not an ORM, it is not a
 
 ## Changelog 2018-09-11
 
-### Changes
-
 ### Internal changes
 * Moved project to GIT
 * Made necessary refactoring to reduce code
 * Migrated IDataReaderExtensions and ParametersBuilder to this project.
+* Added XML comments to all public interfaces.

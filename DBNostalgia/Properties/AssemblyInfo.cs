@@ -34,3 +34,9 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+// Enable testing of internal methods to our test project
+[assembly: InternalsVisibleTo("DBNostalgia.Test")]
+
+// Allow a MoQ dependency to also see our internals
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
