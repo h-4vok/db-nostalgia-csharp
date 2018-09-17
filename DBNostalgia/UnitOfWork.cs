@@ -85,6 +85,30 @@ namespace DBNostalgia
             return output;
         }
 
+        public T GetOne<T>(string procedure, Func<IDataReader, T> fetchClosure, ParametersBuilder parametersBuilder = null)
+        {
+            T output = default(T);
+
+            void iterateAndFetch(IDbCommand command)
+            {
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        output = fetchClosure(reader);
+                    }
+                }
+            }
+
+            this.RunCommand(
+                procedure,
+                iterateAndFetch,
+                parametersBuilder
+            );
+
+            return output;
+        }
+
         public void Execute(string procedure, ParametersBuilder parametersBuilder = null)
         {
             this.RunCommand(
@@ -132,6 +156,13 @@ namespace DBNostalgia
         public object ScalarDirect(string procedure, ParametersBuilder parametersBuilder = null)
         {
             var output = this.Run<object>(() => this.Scalar(procedure, parametersBuilder));
+
+            return output;
+        }
+
+        public T GetOneDirect<T>(string procedure, Func<IDataReader, T> fetchClosure, ParametersBuilder parametersBuilder = null)
+        {
+            var output = this.Run(() => this.GetOne(procedure, fetchClosure, parametersBuilder));
 
             return output;
         }
