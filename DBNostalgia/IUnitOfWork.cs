@@ -35,8 +35,19 @@ namespace DBNostalgia
         /// <param name="procedure">Stored procedure name from your database.</param>
         /// <param name="fetchClosure">The closure that will fetch the data for a single row.</param>
         /// <param name="parametersBuilder">An optional ParametersBuilder object with stored procedure parameter values.</param>
-        /// <returns></returns>
+        /// <returns>A collection of objects of type T.</returns>
         IEnumerable<T> Get<T>(string procedure, Func<IDataReader, T> fetchClosure, ParametersBuilder parametersBuilder = null);
+
+        /// <summary>
+        /// Runs a stored procedure and reads the output as ExecuteReader, but only fetches one row.
+        /// Use this method inside a Run() statement in order to utilize the database connection context. Otherwise it will fail.
+        /// </summary>
+        /// <typeparam name="T">The type you want the data to be returned as.</typeparam>
+        /// <param name="procedure">Stored procedure name from your database.</param>
+        /// <param name="fetchClosure">The closure that will fetch the data for a single row.</param>
+        /// <param name="parametersBuilder">An optional ParametersBuilder object with stored procedure parameter values.</param>
+        /// <returns>A single T object.</returns>
+        T GetOne<T>(string procedure, Func<IDataReader, T> fetchClosure, ParametersBuilder parametersBuilder = null);
 
         /// <summary>
         /// Runs a stored procedure and reads the output as a ExecuteReader.
@@ -46,8 +57,19 @@ namespace DBNostalgia
         /// <param name="procedure">Stored procedure name from your database.</param>
         /// <param name="fetchClosure">The closure that will fetch the data for a single row.</param>
         /// <param name="parametersBuilder">An optional ParametersBuilder object with stored procedure parameter values.</param>
-        /// <returns></returns>
+        /// <returns>A collection of T obejcts.</returns>
         IEnumerable<T> GetDirect<T>(string procedure, Func<IDataReader, T> fetchClosure, ParametersBuilder parametersBuilder = null);
+
+        /// <summary>
+        /// Runs a stored procedure and reads the output as a ExecuteReader, but only fetches one row.
+        /// Use this method outside a Run() statement as it utilizes its own database connection context. Otherwise it will fail.
+        /// </summary>
+        /// <typeparam name="T">The type you want the data to be returned as.</typeparam>
+        /// <param name="procedure">Stored procedure name from your database.</param>
+        /// <param name="fetchClosure">The closure that will fetch the data for a single row.</param>
+        /// <param name="parametersBuilder">An optional ParametersBuilder object with stored procedure parameter values.</param>
+        /// <returns>A single T object.</returns>
+        T GetOneDirect<T>(string procedure, Func<IDataReader, T> fetchClosure, ParametersBuilder parametersBuilder = null);
 
         /// <summary>
         /// Runs a stored procedure as a ExecuteNonQuery.
