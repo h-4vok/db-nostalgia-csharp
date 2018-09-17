@@ -28,7 +28,6 @@ DBNostalgia intends to bring a different approach. It is not an ORM, it is not a
 * Extensibility through interfaces and composition for greater customization
 * Add a GetBytesNullable to IDataReaderExtensions
 * Consider moving IDataReader extensions and ParametersBuilder to their own nuget packages and repos
-* Add GetOne and GetOneDirect methods to IUnitOfWork
 * Should the Direct vs "NonDirect" (bad names) behaviors instead become different implementations/classes under the same interface? Making sure the user (developer) receives an easy-to-use library that is clear on what is its intent. This change might prove a bit difficult because of the interface we want to provide.
 * Should I be targetting 4.6.1? Figure out if there is a way to easily find what is the lesser version my code can support without changing any code.
 * Additional Unit testing (classes EnumerableExtensions, IDataReaderExtensions, UnitOfWork)
@@ -38,6 +37,11 @@ DBNostalgia intends to bring a different approach. It is not an ORM, it is not a
 * Advantages
 * Disadvantages
 * Examples
+
+# Changelogs
+
+## Changelog 2018-09-17
+* Added GetOne and GetOneDirect methods.
 
 ## Changelog 2018-09-11
 
