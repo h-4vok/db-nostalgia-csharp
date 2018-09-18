@@ -42,6 +42,8 @@ DBNostalgia intends to bring a different approach. It is not an ORM, it is not a
 
 ## Changelog 2018-09-17
 * Added GetOne and GetOneDirect methods.
+* Added NuGet configuration and icon
+* Finally published to NuGet.org! Now it's time to make this worth the download.
 
 ## Changelog 2018-09-11
 
