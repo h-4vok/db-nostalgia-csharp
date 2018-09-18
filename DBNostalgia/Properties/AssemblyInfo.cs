@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("DBNostalgia")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Stored Procedure centered alternative for handling your database interactions.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("https://github.com/cg-h4voK/db-nostalgia-csharp")]
 [assembly: AssemblyProduct("DBNostalgia")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
