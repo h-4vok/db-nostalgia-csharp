@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBNostalgia", "DBNostalgia\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBNostalgia.Test", "DBNostalgia.Test\DBNostalgia.Test.csproj", "{4E6BE53D-E2D4-42E9-8926-A6C3CAA6922A}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "DBNostalgia.Integration.Sql", "DBNostalgia.Integration.Sql\DBNostalgia.Integration.Sql.sqlproj", "{A4879805-8F84-4FFA-92B7-A71513A5BD09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,12 @@ Global
 		{4E6BE53D-E2D4-42E9-8926-A6C3CAA6922A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E6BE53D-E2D4-42E9-8926-A6C3CAA6922A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E6BE53D-E2D4-42E9-8926-A6C3CAA6922A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4879805-8F84-4FFA-92B7-A71513A5BD09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4879805-8F84-4FFA-92B7-A71513A5BD09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4879805-8F84-4FFA-92B7-A71513A5BD09}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A4879805-8F84-4FFA-92B7-A71513A5BD09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4879805-8F84-4FFA-92B7-A71513A5BD09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4879805-8F84-4FFA-92B7-A71513A5BD09}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

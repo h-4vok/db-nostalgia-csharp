@@ -11,7 +11,7 @@
     <iconUrl>https://raw.githubusercontent.com/cg-h4voK/db-nostalgia-csharp/develop/DBNostalgia/DBNostalgia.nuget.icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Stored Procedure centered alternative for handling your database interactions.</description>
-    <releaseNotes>DBNostalgia Release 1.0.0.0</releaseNotes>
+    <releaseNotes>DBNostalgia Release 1.0.1.4</releaseNotes>
     <copyright>Copyright 2018</copyright>
     <tags>ADO ADO.NET Database ORM alternative NHibernate EntityFramework EF DBNostalgia DB Nostalgia ChristianG Christian Guzman</tags>
   </metadata>
