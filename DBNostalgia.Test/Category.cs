@@ -10,5 +10,6 @@ namespace DBNostalgia.Test
     {
         public const string Unit = "Unit";
         public const string Slow = "Slow";
+        public const string Integration = "Integration";
     }
 }

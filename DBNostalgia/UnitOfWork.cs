@@ -19,43 +19,49 @@ namespace DBNostalgia
         private IDbTransaction transaction;
         private IDbConnection connection;
 
-        public T Run<T>(Func<T> closure)
+        public T Run<T>(Func<T> closure, bool useTransaction = true)
         {
             T output = default(T);
 
-            this.RunInDatabaseContext(() => { output = closure(); });
+            this.RunInDatabaseContext(() => { output = closure(); }, useTransaction);
 
             return output;
         }
 
-        public void Run(Action closure)
+        public void Run(Action closure, bool useTransaction = true)
         {
-            this.RunInDatabaseContext(closure);
+            this.RunInDatabaseContext(closure, useTransaction);
         }
 
-        protected void RunInDatabaseContext(Action action)
+        protected void RunInDatabaseContext(Action action, bool useTransaction)
         {
+            var transactionBehavior = useTransaction ? (ITransactionBehavior)new UseTransactionBehavior() : new NoTransactionBehavior();
+
             var isTransactionRunning = false;
 
             using (this.connection = this.buildConnectionClosure())
-            using (this.transaction = this.connection.BeginTransaction())
             {
-                isTransactionRunning = true;
+                this.connection.Open();
 
-                try
+                using (this.transaction = transactionBehavior.TryBeginTransaction(this.connection))
                 {
-                    action();
-                }
-                catch
-                {
-                    this.transaction.Rollback();
-                    isTransactionRunning = false;
+                    isTransactionRunning = true;
 
-                    throw;
-                }
-                finally
-                {
-                    if (isTransactionRunning) this.transaction.Commit();
+                    try
+                    {
+                        action();
+                    }
+                    catch
+                    {
+                        transactionBehavior.TryRollbackTransaction(this.transaction);
+                        isTransactionRunning = false;
+
+                        throw;
+                    }
+                    finally
+                    {
+                        if (isTransactionRunning) transactionBehavior.TryCommitTransaction(this.transaction);
+                    }
                 }
             }
         }
@@ -109,7 +115,7 @@ namespace DBNostalgia
             return output;
         }
 
-        public void Execute(string procedure, ParametersBuilder parametersBuilder = null)
+        public void NonQuery(string procedure, ParametersBuilder parametersBuilder = null)
         {
             this.RunCommand(
                 procedure,
@@ -148,28 +154,28 @@ namespace DBNostalgia
             }
         }
 
-        public void ExecuteDirect(string procedure, ParametersBuilder parametersBuilder = null)
+        public void NonQueryDirect(string procedure, ParametersBuilder parametersBuilder = null)
         {
-            this.Run(() =>this.Execute(procedure, parametersBuilder));
+            this.Run(() => this.NonQuery(procedure, parametersBuilder), false);
         }
 
         public object ScalarDirect(string procedure, ParametersBuilder parametersBuilder = null)
         {
-            var output = this.Run<object>(() => this.Scalar(procedure, parametersBuilder));
+            var output = this.Run<object>(() => this.Scalar(procedure, parametersBuilder), false);
 
             return output;
         }
 
         public T GetOneDirect<T>(string procedure, Func<IDataReader, T> fetchClosure, ParametersBuilder parametersBuilder = null)
         {
-            var output = this.Run(() => this.GetOne(procedure, fetchClosure, parametersBuilder));
+            var output = this.Run(() => this.GetOne(procedure, fetchClosure, parametersBuilder), false);
 
             return output;
         }
 
         public IEnumerable<T> GetDirect<T>(string procedure, Func<IDataReader, T> fetchClosure, ParametersBuilder parametersBuilder = null)
         {
-            var output = this.Run<IEnumerable<T>>(() => this.Get(procedure, fetchClosure, parametersBuilder));
+            var output = this.Run<IEnumerable<T>>(() => this.Get(procedure, fetchClosure, parametersBuilder), false);
 
             return output;
         }
