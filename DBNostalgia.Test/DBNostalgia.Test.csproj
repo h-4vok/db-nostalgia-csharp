@@ -63,12 +63,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Category.cs" />
+    <Compile Include="Integration\Integration_UnitOfWork_NonTransactional.cs" />
+    <Compile Include="Integration\Integration_UnitOfWork_Transactional.cs" />
+    <Compile Include="Shared.cs" />
     <Compile Include="Test_ParametersBuilder.cs" />
     <Compile Include="Test_ProcedureParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test_ProcedureParameterWithT.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Integration\App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +81,7 @@
       <Name>DBNostalgia</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

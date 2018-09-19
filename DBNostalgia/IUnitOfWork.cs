@@ -17,7 +17,7 @@ namespace DBNostalgia
         /// <typeparam name="T">The output type of the entire closure.</typeparam>
         /// <param name="closure">The closure Func that will output the value you need within the database connection context.</param>
         /// <returns>A result that comes from your closure.</returns>
-        T Run<T>(Func<T> closure);
+        T Run<T>(Func<T> closure, bool useTransaction = false);
 
         /// <summary>
         /// Runs a closure within the context of a database connection.
@@ -25,7 +25,7 @@ namespace DBNostalgia
         /// Recommended when there are more than one statement that should re-se the same connection or even the same transaction.
         /// </summary>
         /// <param name="closure">The closure Action that will perform the code you need within the database connection context.</param>
-        void Run(Action closure);
+        void Run(Action closure, bool useTransaction = false);
 
         /// <summary>
         /// Runs a stored procedure and reads the output as a ExecuteReader.
@@ -77,7 +77,7 @@ namespace DBNostalgia
         /// </summary>
         /// <param name="procedure">Stored procedure name from your database.</param>
         /// <param name="parametersBuilder">An optional ParametersBuilder object with stored procedure parameter values.</param>
-        void Execute(string procedure, ParametersBuilder parametersBuilder = null);
+        void NonQuery(string procedure, ParametersBuilder parametersBuilder = null);
 
         /// <summary>
         /// Runs a stored procedure as a ExecuteNonQuery.
@@ -85,7 +85,7 @@ namespace DBNostalgia
         /// </summary>
         /// <param name="procedure">Stored procedure name from your database.</param>
         /// <param name="parametersBuilder">An optional ParametersBuilder object with stored procedure parameter values.</param>
-        void ExecuteDirect(string procedure, ParametersBuilder parametersBuilder = null);
+        void NonQueryDirect(string procedure, ParametersBuilder parametersBuilder = null);
 
         /// <summary>
         /// Runs a stored procedure as a ExecuteScalar

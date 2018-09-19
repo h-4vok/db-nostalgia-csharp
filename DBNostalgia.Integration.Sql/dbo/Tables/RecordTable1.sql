@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[RecordTable1]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+	Text1 NVARCHAR(100)
+)
