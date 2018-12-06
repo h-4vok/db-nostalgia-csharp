@@ -37,11 +37,121 @@ DBNostalgia intends to bring a different approach. It is not an ORM, it is not a
 * Currently working for .NET 4.6.1. I will be lowering this target gradually.
 * No dependencies yet, but there is functionality here which I will move to independent NuGet packages.
 
+## Connecting to the database and starting to work
+
+It is pretty simple. Start by creating your unit of work object.
+
+```
+Func<IDbConnection> createDbClosure = () => new SqlConnection(aConnectionString);
+
+var uow = new UnitOfWork(createDbClosure);
+
+uow.NonQueryDirect("someSp");
+```
+
+Let's explain each part. UnitOfWork is expecting a closure that will produce a IDbConnection object. This means you need to provide how the IDbConnection is going to be built. This way, you have 100% control of how connections are used. What UnitOfWork will do with this is calling your procedure when it needs to open a connection.
+
+Wish to always re-use the same connection? Maybe you have a bunch of database connections? Just send the closure that UnitOfWork needs to be able to point to your connection when the time comes.
+
+After we created our object, uow.NonQueryDirect did the following:
+* Used your closure to create a connection
+* Connected to your database
+* Ran the stored procedure "someSp" without any parameters.
+
+This is the most simple scenario.
+
+You can use UnitOfWork wherever you want. I generally recommend to have one unit of work per repository class, if you prefer to use that pattern.
+
+If you wish to know what else you can do, take a look at the Examples section!
+
+### Small note
+
+UnitOfWork will have no problem working in scenarios like Web applications, but keep in mind you are telling UnitOfWork how to get the IDbConnection to use. Consider things like multi-threading and such just like you would in any other library.
+
+Again, just remember that UnitOfWork uses a connection object, so using the same UnitOfWork in a multi-threaded scenario is not recommended. That is a pending feature, but UnitOfWork is not memory heavy nor using the same connection in multi-threading is within DBNostalgia scope right now. However I can envision that just being another class that inherits from IUnitOfWork but has a different behavior and management.
+
 ## Examples
 
-Coming in next publish!
+For every example we will assume there is a this.UnitOfWork object alive. You can see how to create your unit of work from the Getting Started section.
 
-## Pending ideas/development
+Keep in mind that the ParametersBuilder class is it's own thing, and will eventually be moved to it's own nuget package. ParametersBuilder is a mix between a Builder and a Visitor pattern. It will allow you to quickly setup parameters for IDbCommand objects, and then visit them to hidrate the Parameters properly when needed.
+
+### NonQueryDirect
+
+NonQueryDirect is a method that will allow you to run stored procedures that produce no result.
+Or perhaps they do, but you do not care.
+
+First, let's simply run a stored procedure called "execution_noParams". As you can guess, this one has no parameters.
+
+```
+this.UnitOfWork.NonQueryDirect("execution_noParams");
+```
+
+By using NonQueryDirect, the connection was automatically opened without transaction. You will see how to run within a transaction later on in the Run() section.
+
+Now let's run another stored procedure called "MyModel_delete" which receives an ID parameter.
+
+```
+var id = 100;
+this.UnitOfWork.NonQueryDirect("MyModel_delete", ParametersBuilder.With("id", id));
+```
+
+Here we called "MyModel_delete" with parameter @id = 100.
+
+### ScalarDirect
+
+ScalarDirect is a method that will allow you to run a stored procedure and do what usually ExecuteScalar does. Read the value of the first row and first column (that is actually the real implementation). In other words, get a single value.
+
+Let's run a stored procedure "scalar_noParams"
+
+```
+var result = this.UnitOfWork.ScalarDirect("scalar_noParams");
+```
+
+Here we have opened the connection, executed "scalar_noParams" and obtained the result. That result is on the "result" variable which is of type object. If you wish to read this as a particular type, you need to cast or convert as you prefer.
+
+If you wish to use parameters, like in every example, we simply use ParametersBuilder.
+
+```
+var result = this.UnitOfWork.ScalarDirect("scalar_withParams",
+    ParametersBuilder.With("stringParam", "string value")
+    .And("intParam", 1000)
+    .And("bitParam", true)
+);
+```
+
+There is a library of my own I use called ObjectExtensions, which is not yet in NuGet. I will first add it to DBNostalgia and then move it to NuGet as a separate dependency eventually. These allow you to perform very fast transformations, for example we can change the above example to read like an integer.
+
+```
+var integerResult = this.UnitOfWork.ScalarDirect("scalar_noParams").AsInt();
+```
+
+That will stay optional anyway, so do not worry if you do not like this approach.
+
+### GetOneDirect
+
+GetOneDirect is a method that will run a stored procedure, open an IDataReader internally and allow you to read all the data from that first row. You can turn the data into a model, or just do whatever you want with it.
+
+Let's run a stored procedure "MyModel_get" with an ID parameter. We will create an object of class MyModel during this execution.
+
+```
+var id = 22;
+
+var model = this.UnitOfWork.GetOneDirect(
+    "MyModel_get",
+    (reader) => {
+        return new MyModel 
+        {
+            Property1 = reader.GetString("Property1"),
+            Property2 = reader.GetInt32("Property2"),
+            Property3 = reader.GetBool
+        }
+    },
+    ParametersBuilder.With("id", id)
+);
+```
+
+## Pending ideas/features
 
 ### Behavior changes
 
@@ -57,6 +167,8 @@ Coming in next publish!
 
 ### Quality Changes
 
+* Usage of ObjectExtensions for faster conversions.
+* Move ObjectExtensions to its own nuget package.
 * Additional Unit testing (classes EnumerableExtensions, IDataReaderExtensions, UnitOfWork)
 * Should the Direct vs "NonDirect" (bad names) behaviors instead become different implementations/classes under the same interface? Making sure the user (developer) receives an easy-to-use library that is clear on what is its intent. This change might prove a bit difficult because of the interface we want to provide.
 
